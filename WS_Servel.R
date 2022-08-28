@@ -66,11 +66,12 @@ toc() # Para medir tiempo (fin)
 reg_dist_com <- read_csv("Lista_RegionDistritoComuna.csv")
 
 # Ajustes a data frame
-datos_votaciones2021 <- vot_comunas %>% 
+datos_votaciones_plebiscito <- vot_comunas %>% 
   rowwise() %>% 
-  mutate(vot_validos = sum(vot_boric, vot_kast),
-         vot_tot = sum(vot_validos, vot_nulo, vot_blanco),
-         participacion = vot_tot/padron) %>% 
+  mutate(vot_validos = sum(vot_apruebo, vot_rechazo),
+         vot_tot = sum(vot_validos, vot_nulo, vot_blanco)#,
+         #participacion = vot_tot/padron
+         ) %>% 
   ungroup() %>% 
   left_join(reg_dist_com, by = c("com_nom" = "comuna")) %>% 
   mutate(region = ifelse(is.na(region), "DE MAGALLANES Y DE LA ANTARTICA CHILENA", region),
@@ -101,7 +102,6 @@ pob_com <- read_excel("Estimaciones_de_Tasa_de_Pobreza_por_Ingresos_por_Comunas_
   mutate(`Nombre comuna` = str_to_upper(`Nombre comuna`),
          `Nombre comuna` = stri_trans_general(str = `Nombre comuna`, id = "Latin-ASCII"),
          `Nombre comuna` = case_when(
-           `Nombre comuna` == "PAIGUANO" ~ "PAIHUANO",
            `Nombre comuna` == "TREGUACO" ~ "TREHUACO",
            `Nombre comuna` == "MARCHIHUE" ~ "MARCHIGUE",
            TRUE ~ `Nombre comuna`
@@ -112,7 +112,7 @@ pob_com <- read_excel("Estimaciones_de_Tasa_de_Pobreza_por_Ingresos_por_Comunas_
   select(cod_casen, com_nom, per_pob2020)
 
 # DATA FRAME FINAL
-datos_votaciones_pob <- datos_votaciones2021 %>% 
+datos_votaciones_pob <- datos_votaciones_plebiscito %>% 
   left_join(pob_com, by = "com_nom") %>% 
   select(region, orden_reg, distrito, com_nom, cod_servel, cod_casen, everything()) 
 
