@@ -1,0 +1,118 @@
+---
+title: "Resultados Plebiscito Constitucional"
+subtitle: "Domingo 4 de septiembre 2022"
+author: Pablo Javier Aguirre Hörmann ([@PAguirreH](https://twitter.com/PAguirreH))
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    highlight: zenburn
+    theme: journal
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, echo = FALSE)
+
+library(rjson)
+library(readr)
+library(readxl)
+library(dplyr)
+library(ggplot2)
+library(tidyr)
+library(forcats)
+library(lubridate)
+library(glue)
+library(purrr)
+library(stringr)
+library(stringi)
+library(tictoc)
+
+source("scripts/FuncionGrafico.R", encoding = "UTF-8")
+```
+
+```{r, ws_region}
+source("scripts/WS_Servel_Region_f.R", encoding = "UTF-8")
+```
+
+El siguiente documento resume los resultados del plebiscito constitucional del 4 de septiembre del 2022. Los datos son extraídos automáticamente desde la we del [SERVEL](https://www.servelelecciones.cl/#/votacion/elecciones_constitucion/global/19001). El código está disponible en mi [GitHub](https://github.com/pjaguirreh/WS_PlebiscitoConstitucional).
+
+# Resultados a nivel nacional
+
+```{r resultados_nacional}
+resultados_nacional <- resultados_region %>% 
+  summarise(
+    apruebo = sum(apruebo),
+    rechazo = sum(rechazo),
+    nulo = sum(nulo),
+    blanco = sum(blanco),
+    ) %>% 
+  pivot_longer(1:4, names_to = "tipo", values_to = "votos") %>% 
+  mutate(tipo = case_when(
+    tipo == "apruebo" ~ "Apruebo",
+    tipo == "rechazo" ~ "Rechazo",
+    tipo == "nulo" ~ "Nulos",
+    tipo == "blanco" ~ "Blancos"
+  )) %>% 
+  mutate(tipo = as.factor(tipo),
+         tipo = fct_relevel(tipo, c("Apruebo", "Rechazo", "Nulo", "Blanco")))
+
+resultados_nacional[1, 2] <- 0.45
+resultados_nacional[2, 2] <- 0.45
+resultados_nacional[3, 2] <- 0.05
+resultados_nacional[4, 2] <- 0.05
+```
+
+```{r graf_resultado_nacional, fig.align='center'}
+resultados_nacional %>% 
+  ggplot(aes(x = tipo, y = votos, label = votos)) +
+  geom_col() +
+  geom_label() +
+  labs(x = NULL, y = NULL,
+       title = "Resultados parciales plebiscito nacional propuesta constitucional",
+       subtitle = glue('Actualizado a las {str_sub(Sys.time(), 12,16)}'),
+       caption = "Elaborado por Pablo Aguirre Hörmann (@PAguirreH - https://github.com/pjaguirreh)") +
+  mi_tema +
+  theme(axis.text.y.left = element_blank(),
+        axis.text.x = element_text(size = 15)) +
+  ylim(c(0,1))
+```
+
+# Resultados a nivel regional
+
+```{r graf_resultados_regional, fig.align='center', fig.height=11, fig.width=16}
+a <- resultados_region %>% 
+  select(-votos_validos, -votos_totales, -cod_reg) %>% 
+  pivot_longer(2:5, names_to = "tipo", values_to = "votos") %>% 
+  mutate(tipo = case_when(
+    tipo == "apruebo" ~ "Apruebo",
+    tipo == "rechazo" ~ "Rechazo",
+    tipo == "nulo" ~ "Nulos",
+    tipo == "blanco" ~ "Blancos"
+  )) %>% 
+  mutate(tipo = as.factor(tipo),
+         tipo = fct_relevel(tipo, c("Apruebo", "Rechazo", "Nulo", "Blanco"))) 
+
+a$votos <- rep(c(0.45, 0.45, 0.05, 0.05), 16)
+
+a %>% 
+  ggplot(aes(x = tipo, y = votos, label = votos)) +
+  geom_col() +
+  geom_label(size = 6) +
+  labs(x = NULL, y = NULL,
+       title = "Resultados parciales plebiscito nacional propuesta constitucional",
+       subtitle = glue('Actualizado a las {str_sub(Sys.time(), 12,16)}'),
+       caption = "Elaborado por Pablo Aguirre Hörmann (@PAguirreH - https://github.com/pjaguirreh)") +
+  mi_tema +
+  theme(axis.text.y.left = element_blank()) +
+  facet_wrap(vars(region)) +
+  theme(axis.text.y.left = element_blank(),
+        axis.text.x = element_text(size = 15)) +
+  ylim(c(0,1))
+```
+
+# Resultados a nivel comunal
+
+```{r, eval = FALSE}
+source("scripts/WS_Servel_Comuna_f.R", encoding = "UTF-8")
+```
+
