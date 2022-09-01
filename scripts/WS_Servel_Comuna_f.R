@@ -17,6 +17,7 @@ scrap_comunas <- function(x){
     )
 }
 
+
 resultados_comuna <- map(diccionario_com$cod_com, scrap_comunas) %>% 
   bind_rows() %>% 
   left_join(diccionario_com, by = "cod_com") %>% 
