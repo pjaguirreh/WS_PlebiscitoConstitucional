@@ -1,8 +1,28 @@
 datos_2v2021 <- read_rds("planillas_aux/datos_2v2021.rds")
 
-datos_2v2021_nac <- read_rds("planillas_aux/datos_2v2021_nac.rds")
+datos_2v2021_total <- read_rds("planillas_aux/datos_2v2021_nac.rds")
 
-datos_2v2021_nac <- datos_2v2021_nac %>% 
+datos_2v2021_ext <- datos_2v2021_total %>% 
+  filter(Candidato %in% c("GABRIEL BORIC FONT", "JOSE ANTONIO KAST RIST")) %>% 
+  select(Candidato, votos = Extranjero) %>% 
+  mutate(porcentaje = round((votos/sum(votos))*100, 1)) %>% 
+  mutate(Candidato = case_when(
+    str_detect(Candidato, "BORIC") ~ "Boric",
+    TRUE ~ "Kast"
+  )) %>% 
+  rename(tipo = Candidato)
+
+datos_2v2021_nac <- datos_2v2021_total %>% 
+  filter(Candidato %in% c("GABRIEL BORIC FONT", "JOSE ANTONIO KAST RIST")) %>% 
+  select(Candidato, votos = Chile) %>% 
+  mutate(porcentaje = round((votos/sum(votos))*100, 1)) %>% 
+  mutate(Candidato = case_when(
+    str_detect(Candidato, "BORIC") ~ "Boric",
+    TRUE ~ "Kast"
+  )) %>% 
+  rename(tipo = Candidato)
+
+datos_2v2021_total <- datos_2v2021_total %>% 
   filter(Candidato %in% c("GABRIEL BORIC FONT", "JOSE ANTONIO KAST RIST")) %>% 
   select(Candidato, votos = Total) %>% 
   mutate(porcentaje = round((votos/sum(votos))*100, 1)) %>% 
@@ -11,7 +31,6 @@ datos_2v2021_nac <- datos_2v2021_nac %>%
     TRUE ~ "Kast"
   )) %>% 
   rename(tipo = Candidato)
-
 
 datos_2v2021_reg <- datos_2v2021 %>% 
   filter(Candidato %in% c("GABRIEL BORIC FONT", "JOSE ANTONIO KAST RIST")) %>% 

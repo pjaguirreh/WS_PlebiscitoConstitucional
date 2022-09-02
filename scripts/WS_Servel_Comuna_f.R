@@ -31,16 +31,3 @@ resultados_comuna <- map(diccionario_com$cod_com, scrap_comunas) %>%
   select(region, comuna, cod_com, apruebo, rechazo, nulo, blanco, votos_validos, votos_totales) %>% 
   mutate(region = str_remove_all(region, "DE "),
          region = str_remove_all(region, "DEL "))
-
-pob_com <- read_excel("planillas_aux/Estimaciones_de_Tasa_de_Pobreza_por_Ingresos_por_Comunas_2020.xlsx") %>% 
-  mutate(`Nombre comuna` = str_to_upper(`Nombre comuna`),
-         `Nombre comuna` = stri_trans_general(str = `Nombre comuna`, id = "Latin-ASCII"),
-         `Nombre comuna` = case_when(
-           `Nombre comuna` == "TREGUACO" ~ "TREHUACO",
-           `Nombre comuna` == "MARCHIHUE" ~ "MARCHIGUE",
-           TRUE ~ `Nombre comuna`
-         )) %>% 
-  rename("cod_casen" = `Código`,
-         "com_nom" = `Nombre comuna`,
-         "per_pob2020" = `Porcentaje de personas en situación de pobreza por ingresos 2020`) %>% 
-  select(cod_casen, com_nom, per_pob2020)

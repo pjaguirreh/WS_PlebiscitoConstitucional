@@ -1,6 +1,6 @@
-graf_nacional <- resultados_nacional %>% 
+graf_extranjero <- resultados_paises %>% 
   mutate(porcentaje = round((votos/sum(votos)*100), 1)) %>% 
-  bind_rows(datos_2v2021_nac) %>% 
+  bind_rows(datos_2v2021_ext) %>% 
   mutate(cat = case_when(
     tipo %in% c("Apruebo", "Rechazo") ~ "1",
     TRUE ~ "0"
@@ -16,7 +16,7 @@ graf_nacional <- resultados_nacional %>%
   geom_label(nudge_y = 10, fill = NA) +
   labs(x = NULL, y = NULL,
        title = "Resultados parciales plebiscito nacional propuesta constitucional",
-       subtitle = glue('Mesas en Chile. Actualizado a las {str_sub(Sys.time(), 12,16)}'),
+       subtitle = glue('Mesas en el extranjero. Actualizado a las {str_sub(Sys.time(), 12,16)}'),
        caption = "Elaborado por Pablo Aguirre Hörmann (@PAguirreH - https://github.com/pjaguirreh)") +
   mi_tema +
   theme(axis.text.y.left = element_blank(),
@@ -26,4 +26,3 @@ graf_nacional <- resultados_nacional %>%
   scale_fill_manual(values = c("1" = "#619CFF", 
                                "0" = "light grey")) +
   ylim(c(0,100))
-

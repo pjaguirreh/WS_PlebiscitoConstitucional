@@ -1,6 +1,6 @@
 ---
-title: "Resultados Plebiscito Constitucional"
-subtitle: "Domingo 4 de septiembre 2022"
+title: "Resultados Plebiscito Constitucional (VERSIÓN TESTING CON DATOS INVENTADOS PARA EL PLEBISCITO DEL 04/09)"
+subtitle: "Domingo 4 de septiembre 2022 "
 author: Pablo Javier Aguirre Hörmann ([@PAguirreH](https://twitter.com/PAguirreH))
 output:
   html_document:
@@ -25,29 +25,44 @@ library(glue)
 library(purrr)
 library(stringr)
 library(stringi)
-library(tictoc)
 
 source("scripts/FuncionGrafico.R", encoding = "UTF-8")
 source("scripts/Datos2V2021.R", encoding = "UTF-8")
+source("scripts/DatosExtra.R", encoding = "UTF-8")
 ```
 
-```{r, ws_region}
+```{r, ws_manejo_datos}
+source("scripts/WS_Servel_Paises_f.R", encoding = "UTF-8")
 source("scripts/WS_Servel_Region_f.R", encoding = "UTF-8")
-```
-
-```{r, ws_comuna, eval = TRUE}
 source("scripts/WS_Servel_Comuna_f.R", encoding = "UTF-8")
+source("scripts/ManejoDatos.R", encoding = "UTF-8")
 ```
 
-El siguiente documento resume los resultados del plebiscito constitucional del 4 de septiembre del 2022. Los datos son extraídos automáticamente desde la we del [SERVEL](https://www.servelelecciones.cl/#/votacion/elecciones_constitucion/global/19001). También se comparan los computos con los resultados de la 2da vuelta presidencial del 2021.
+El siguiente documento resume los resultados del plebiscito constitucional del 4 de septiembre del 2022. Los datos son extraídos automáticamente desde la web del [SERVEL](https://www.servelelecciones.cl/#/votacion/elecciones_constitucion/global/19001). También se comparan los computos con los resultados de la 2da vuelta presidencial del año 2021.
 
-El código está disponible en [GitHub](https://github.com/pjaguirreh/WS_PlebiscitoConstitucional).
+El código que genera este reporte está disponible en [GitHub](https://github.com/pjaguirreh/WS_PlebiscitoConstitucional).
 
-# Resultados a nivel nacional
+**VERSIÓN TESTING CON DATOS INVENTADOS PARA EL PLEBISCITO DEL 04/09**
+
+# Resultados generales (votos en Chile y extranjero)
+
+```{r graf_resultado_total, fig.align='center'}
+source("scripts/Graf_total.R", encoding = "UTF-8")
+graf_total
+```
+
+## Resultado nacional
 
 ```{r graf_resultado_nacional, fig.align='center'}
 source("scripts/Graf_nacional.R", encoding = "UTF-8")
 graf_nacional
+```
+
+## Resultado extranjero
+
+```{r graf_resultado_extranjero, fig.align='center'}
+source("scripts/Graf_extranjero.R", encoding = "UTF-8")
+graf_extranjero
 ```
 
 # Resultados a nivel regional
@@ -62,5 +77,6 @@ graf_regional
 ```{r, fig.width=10, fig.height=7,fig.align='center'}
 source("scripts/Graf_comunales.R", encoding = "UTF-8")
 graf_comunal
+graf_comunal2
 ```
 
