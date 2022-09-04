@@ -11,18 +11,18 @@ graf_comunal <- a %>%
   #geom_point(data = filter(a, destacar == "1"), size = 2, color = "red") +
   ylim(c(5, 95)) +
   xlim(c(5, 95)) +
-  mi_tema +
+  mi_tema1 +
   labs(title = "Resultados parciales plebiscito nacional propuesta constitucional",
        subtitle = glue('El tamaño de los puntos refleja el N° de votos válidamente emitidos. Actualizado a las {str_sub(Sys.time(), 12,16)}'),
-       x = "Votación (%) Boric en 2da Vuelta",
+       x = "Votación (%) Boric en 2da Vuelta 2021",
        y = "Votación (%) Apruebo 04/05",
        caption = "Elaborado por Pablo Aguirre Hörmann (@PAguirreH - https://github.com/pjaguirreh)") +
-  annotate("text", x = 19, y = 95, 
-                     label = c("Comunas a este lado de la curva están votando en mayor medida\npor el Apruebo al comparar con su votación por Boric"),
-                     size = 3) +
-  annotate("text", x = 81, y = 5, 
-                     label = c("Comunas a este lado de la curva están votando en menor medida\npor el Apruebo al comparar con su votación por Boric"),
-                     size = 3) +
+  annotate("text", x = 25.5, y = 95, 
+                     label = c("Comunas a este lado de la curva están votando en MAYOR medida\npor el Apruebo de lo que votaron por Boric en 2V"),
+                     size = 4) +
+  annotate("text", x = 74.5, y = 5, 
+                     label = c("Comunas a este lado de la curva están votando en MENOR medida\npor el Apruebo de lo que votaron por Boric en 2v"),
+                     size = 4) +
   theme(legend.position = "none",
         plot.caption = element_text(color = "grey70", size = 13))
 
@@ -42,23 +42,23 @@ graf_comunal2 <- a %>%
   #geom_point(data = filter(a, destacar == "1"), size = 2, color = "red") +
   ylim(c(5, 95)) +
   xlim(c(5, 95)) +
-  mi_tema +
+  mi_tema1 +
   labs(title = "Resultados parciales plebiscito nacional propuesta constitucional",
        subtitle = glue('El tamaño de los puntos refleja el N° de votos válidamente emitidos. Actualizado a las {str_sub(Sys.time(), 12,16)}'),
-       x = "Votación (%) Boric en 2da Vuelta",
+       x = "Votación (%) Boric en 2da Vuelta 2021",
        y = "Votación (%) Apruebo 04/05",
        caption = "Elaborado por Pablo Aguirre Hörmann (@PAguirreH - https://github.com/pjaguirreh)") +
-  annotate("text", x = 19, y = 95, 
+  annotate("text", x = 20, y = 95, 
            label = c("Comunas donde ganó Kast y va ganando Apruebo"),
-           size = 3) +
-  annotate("text", x = 81, y = 5, 
+           size = 4) +
+  annotate("text", x = 80, y = 5, 
            label = c("Comunas donde ganó Boric y va ganando Rechazo"),
-           size = 3) +
-  annotate("text", x = 19, y = 5, 
+           size = 4) +
+  annotate("text", x = 20, y = 5, 
            label = c("Comunas donde ganó Kast y va ganando Rechazo"),
-           size = 3) +
-  annotate("text", x = 81, y = 95, 
+           size = 4) +
+  annotate("text", x = 80, y = 95, 
            label = c("Comunas donde ganó Boric y va ganando Apruebo"),
-           size = 3)  +
+           size = 4)  +
   theme(legend.position = "none",
         plot.caption = element_text(color = "grey70", size = 13))

@@ -1,6 +1,5 @@
 ---
 title: "Resultados Plebiscito Constitucional (VERSIÓN TESTING CON DATOS INVENTADOS PARA EL PLEBISCITO DEL 04/09)"
-subtitle: "Domingo 4 de septiembre 2022 "
 author: Pablo Javier Aguirre Hörmann ([@PAguirreH](https://twitter.com/PAguirreH))
 output:
   html_document:
@@ -31,6 +30,10 @@ source("scripts/Datos2V2021.R", encoding = "UTF-8")
 source("scripts/DatosExtra.R", encoding = "UTF-8")
 ```
 
+---
+subtitle: `r glue("Domingo 4 de septiembre 2022. Actualizado a las {hour(Sys.time())}:{minute(Sys.time())}")`
+---
+
 ```{r, ws_manejo_datos}
 source("scripts/WS_Servel_Paises_f.R", encoding = "UTF-8")
 source("scripts/WS_Servel_Region_f.R", encoding = "UTF-8")
@@ -38,13 +41,17 @@ source("scripts/WS_Servel_Comuna_f.R", encoding = "UTF-8")
 source("scripts/ManejoDatos.R", encoding = "UTF-8")
 ```
 
-El siguiente documento resume los resultados del plebiscito constitucional del 4 de septiembre del 2022. Los datos son extraídos automáticamente desde la web del [SERVEL](https://www.servelelecciones.cl/#/votacion/elecciones_constitucion/global/19001). También se comparan los computos con los resultados de la 2da vuelta presidencial del año 2021.
+El siguiente documento resume los resultados del plebiscito constitucional del 4 de septiembre del 2022. Los datos son extraídos automáticamente desde la web del [SERVEL](https://www.servelelecciones.cl/#/votacion/elecciones_constitucion/global/19001). Además, se contrastan los computos con los resultados oficiales de la 2da vuelta presidencial del año 2021.
 
 El código que genera este reporte está disponible en [GitHub](https://github.com/pjaguirreh/WS_PlebiscitoConstitucional).
 
 **VERSIÓN TESTING CON DATOS INVENTADOS PARA EL PLEBISCITO DEL 04/09**
 
-# Resultados generales (votos en Chile y extranjero)
+# Resultados a nivel país/extranjero
+
+## Resultados totales (Chile y Extranjero)
+
+*Considerar que las mesas en el extranjero comienzan a contarse antes de que las de Chile por lo que los primeros computos no representan necesariamente una muestra representativa del universo de votantes.*
 
 ```{r graf_resultado_total, fig.align='center'}
 source("scripts/Graf_total.R", encoding = "UTF-8")
@@ -65,10 +72,17 @@ source("scripts/Graf_extranjero.R", encoding = "UTF-8")
 graf_extranjero
 ```
 
+## Evolución de resultados
+
+```{r graf_evolucion, fig.align='center', eval = FALSE}
+source("scripts/Graf_evolucion.R", encoding = "UTF-8")
+graf_evolucion
+```
+
 # Resultados a nivel regional
 
 ```{r graf_resultados_regional, fig.align='center', fig.height=12, fig.width=16}
-source("scripts/Graf_regiones.R")
+source("scripts/Graf_regiones.R", encoding = "UTF-8")
 graf_regional
 ```
 

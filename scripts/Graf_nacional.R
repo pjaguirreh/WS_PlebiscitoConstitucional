@@ -18,11 +18,7 @@ graf_nacional <- resultados_nacional %>%
        title = "Resultados parciales plebiscito nacional propuesta constitucional",
        subtitle = glue('Mesas en Chile. Actualizado a las {str_sub(Sys.time(), 12,16)}'),
        caption = "Elaborado por Pablo Aguirre Hörmann (@PAguirreH - https://github.com/pjaguirreh)") +
-  mi_tema +
-  theme(axis.text.y.left = element_blank(),
-        axis.text.x = element_text(size = 15),
-        panel.grid.major = element_blank(),
-        legend.position = "none") +
+  mi_tema2 +
   scale_fill_manual(values = c("1" = "#619CFF", 
                                "0" = "light grey")) +
   ylim(c(0,100))

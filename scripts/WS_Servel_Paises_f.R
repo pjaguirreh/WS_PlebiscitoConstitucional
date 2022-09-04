@@ -17,8 +17,12 @@ scrap_pais <- function(x){
   )
 }
 
-resultados_paises <- map(diccionario_pais$cod_pais, scrap_pais) %>% 
+resultados_paises_detalle <- map(diccionario_pais$cod_pais, scrap_pais) %>% 
   bind_rows() %>% 
+  left_join(diccionario_pais) %>% 
+  select(pais, apruebo, rechazo, nulo, blanco)
+
+resultados_paises <- resultados_paises_detalle %>% 
   summarise(
     apruebo = sum(apruebo, na.rm = TRUE),
     rechazo = sum(rechazo, na.rm = TRUE),

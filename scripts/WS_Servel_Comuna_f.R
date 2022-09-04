@@ -31,3 +31,16 @@ resultados_comuna <- map(diccionario_com$cod_com, scrap_comunas) %>%
   select(region, comuna, cod_com, apruebo, rechazo, nulo, blanco, votos_validos, votos_totales) %>% 
   mutate(region = str_remove_all(region, "DE "),
          region = str_remove_all(region, "DEL "))
+
+###################################
+
+write_csv(bind_rows(resultados_comuna, 
+                    select(mutate(resultados_paises_detalle, region = "Extranjero", comuna = pais, .before = 1), -pais)), 
+          glue(
+            "parciales/ResultadoParcial_{str_replace_all(str_replace_all(str_replace_all(str_sub(Sys.time(), 1, 19), '-', '_'), ':', '_'), ' ', '_')}.csv"
+            ))
+
+write_csv(bind_rows(resultados_comuna, 
+                    select(mutate(resultados_paises_detalle, region = "Extranjero", comuna = pais, .before = 1), -pais)), 
+          "parciales/ultimo.csv")
+

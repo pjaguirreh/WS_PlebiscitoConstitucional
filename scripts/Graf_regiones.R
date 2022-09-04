@@ -1,16 +1,4 @@
 graf_regional <- resultados_region %>% 
-  select(-votos_validos, -votos_totales, -cod_reg, -nulo, -blanco) %>% 
-  pivot_longer(2:3, names_to = "tipo", values_to = "votos") %>% 
-  mutate(tipo = case_when(
-    tipo == "apruebo" ~ "Apruebo",
-    tipo == "rechazo" ~ "Rechazo"
-  )) %>% 
-  mutate(tipo = as.factor(tipo),
-         tipo = fct_relevel(tipo, c("Apruebo", "Rechazo"))) 
-
-graf_regional$votos <- rep(c(1500, 1500), 16)
-
-graf_regional <- graf_regional %>% 
   group_by(region) %>% 
   mutate(porcentaje = (votos/sum(votos)*100)) %>% 
   bind_rows(datos_2v2021_reg) %>% 
@@ -30,7 +18,7 @@ graf_regional <- graf_regional %>%
        title = "Resultados parciales plebiscito nacional propuesta constitucional",
        subtitle = glue('Actualizado a las {str_sub(Sys.time(), 12,16)}'),
        caption = "Elaborado por Pablo Aguirre Hormann (@PAguirreH - https://github.com/pjaguirreh)") +
-  mi_tema +
+  mi_tema1 +
   theme(axis.text.y.left = element_blank()) +
   facet_wrap(vars(region), scales = "free_x") +
   theme(axis.text.y.left = element_blank(),
