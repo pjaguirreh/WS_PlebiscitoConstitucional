@@ -1,6 +1,6 @@
 graf_regional <- resultados_region %>% 
   group_by(region) %>% 
-  mutate(porcentaje = (votos/sum(votos)*100)) %>% 
+  mutate(porcentaje = round(votos/sum(votos)*100,1)) %>% 
   bind_rows(datos_2v2021_reg) %>% 
   mutate(cat = case_when(
     tipo %in% c("Apruebo", "Rechazo") ~ "1",
